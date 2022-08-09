@@ -1,24 +1,56 @@
 import logo from './logo.svg';
 import './App.css';
+import Header from './components/Header';
+import Main from './components/Main';
+import Filters from './components/Filters';
+import Products from './components/Products';
+import ProductCard from './components/ProductCard';
+import { useEffect, useState, createContext } from 'react';
+
+
+
 
 function App() {
+
+  const [productData, setProductData] = useState(() => {
+    return []
+  })
+
+  const [theme, setTheme] = useState(() => {
+    'light'
+  })
+
+  const [isOn, setIsOn] = useState(false);
+
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products/')
+    .then(data => data.json())
+    .then(response => setProductData(response))
+    .then(() => {setIsOn(true)})
+    .then(() => {console.log('2')})
+  }, isOn)
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+        <Header />
+        <Main>
+          <Filters />
+          <Products>
+              {productData.map((productData)=> {
+                return <ProductCard
+                        title={productData?.title}
+                        description={productData?.description}
+                        image={productData?.image}
+                        price={productData?.price}
+                        count={productData?.rating.count}
+                        rate={productData?.rating.rate}
+                />
+              })}
+          </Products>
+        </Main>
+      </>
   );
 }
 
