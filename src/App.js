@@ -1,23 +1,19 @@
-import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
 import Main from './components/Main';
 import Filters from './components/Filters';
 import Products from './components/Products';
 import ProductCard from './components/ProductCard';
-import { useEffect, useState, createContext } from 'react';
+import {useEffect, useState, createContext, useRef, useMemo} from 'react';
 
-
-
+export const ProductContext = createContext(null)
 
 function App() {
 
+  const AppRef = useRef(null)
+
   const [productData, setProductData] = useState(() => {
     return []
-  })
-
-  const [theme, setTheme] = useState(() => {
-    'light'
   })
 
   const [isOn, setIsOn] = useState(false);
@@ -27,30 +23,18 @@ function App() {
     .then(data => data.json())
     .then(response => setProductData(response))
     .then(() => {setIsOn(true)})
-    .then(() => {console.log('2')})
   }, isOn)
 
-
-
-  return (
-    <>
-        <Header />
+   return (
+    <div ref={AppRef} className='light'>
+        <Header AppRef={AppRef}/>
         <Main>
           <Filters />
-          <Products>
-              {productData.map((productData)=> {
-                return <ProductCard
-                        title={productData?.title}
-                        description={productData?.description}
-                        image={productData?.image}
-                        price={productData?.price}
-                        count={productData?.rating.count}
-                        rate={productData?.rating.rate}
-                />
-              })}
-          </Products>
+          <ProductContext.Provider value={productData}>
+          <Products />
+          </ProductContext.Provider>
         </Main>
-      </>
+    </div>
   );
 }
 

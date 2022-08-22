@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
+import ProductCard from './ProductCard';
+import { ProductContext } from '../App';
 
 const Products = (props) => {
 
@@ -12,6 +14,10 @@ const Products = (props) => {
 
     const [buttonGridStyle, setButtonGridStyle] = useState(() => {
         return 'product-view-grid-button__cheked'
+    })
+
+    const [sortState, setsortState] = useState(() => {
+        return 'desc'
     })
 
     const handleClickListButton = () => {
@@ -34,9 +40,43 @@ const Products = (props) => {
         setProductListView('product-list__list');
     }
 
+    const sortArrDesc = (arr) => {
+        return arr.sort((a, b) => {return b.price - a.price})
+    }
+    
+    const sortArrAsc = (arr) => {
+        return arr.sort((a, b) => {return a.price - b.price })
+    }
+
+    const sortAsc = () => {
+        setsortState('asc')
+    }
+
+    const sortDesc = () => {
+        setsortState('desc')
+    }
+
+    const productData = useContext(ProductContext)
+
+    const memoizedProductCard = useMemo(() => {
+        return (
+            <ProductCard/>
+        )
+      }, [])
+
     return (
         <div className='product-container'>
             <div className="product-view">
+                <button className={buttonListStyle}
+                        onClick={sortAsc}
+                >
+                Сортировка по возрастанию
+                </button>
+                <button className={buttonListStyle}
+                        onClick={sortDesc}
+                >
+                Сортировка по убыванию
+                </button>
                 <button className={buttonListStyle}
                         onClick={changeListState}
                 >
@@ -49,10 +89,20 @@ const Products = (props) => {
                 </button>
             </div>
             <div className={productListView}>
-                {props.children}
+            {sortState === 'desc' ? sortArrDesc(productData).map(productData => 
+            <ProductContext.Provider value={productData}>
+            {memoizedProductCard}
+            </ProductContext.Provider>) : sortArrAsc(productData).map(productData => 
+            <ProductContext.Provider value={productData}>
+            {memoizedProductCard}
+            </ProductContext.Provider>)
+            }
             </div>
         </div>
     );
 };
+
+
+
 
 export default Products;

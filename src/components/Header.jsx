@@ -1,16 +1,22 @@
-import React, { useState, createContext} from 'react';
+import React, {useState} from 'react';
 
-const Header = () => {
+const Header = ({AppRef}) => {
 
     const [theme, setTheme] = useState(() => {
         return 'light'
     })
 
     const changeTheme = () => {
-        theme === 'light' ? setTheme('dark') : setTheme('light')
+        AppRef.current.className === 'light' ? setTheme('dark') : setTheme('light')
+        AppRef.current.className = theme
     }
 
-    const themeContext = createContext(theme)
+    console.log(AppRef)
+    console.log();
+    const tree = (arr) => {
+        arr.sort((a, b) => {return b.price - a.price} ) 
+        console.log(22)
+      }
 
     return (
         <header className='header'>
@@ -24,7 +30,7 @@ const Header = () => {
                 <label className='night-mode-switcher-label'>
                     <span className='night-mode-switcher-text'>Ночная тема</span>
                 </label>
-                <input className='night-mode-switcher-input' id='night-mode-switcher' type="checkbox" onChange={changeTheme}/>
+                <input className='night-mode-switcher-input' id='night-mode-switcher' type="checkbox" onChange={changeTheme} onInput={changeTheme}/>
             </div>
             <div className='navigation-favorites'>
                 <span>Избранное</span>
