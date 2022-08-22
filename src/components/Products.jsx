@@ -62,7 +62,7 @@ const Products = (props) => {
         return (
             <ProductCard/>
         )
-      }, [])
+      }, [productData])
 
     return (
         <div className='product-container'>
