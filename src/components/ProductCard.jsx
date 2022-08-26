@@ -1,7 +1,6 @@
-import {React, useState, useContext} from 'react';
-import { ProductContext } from '../App';
+import React, {useState} from 'react';
 
-const ProductCard = () => {
+const ProductCard = React.memo(({title, image, price, count, rate}) => {
 
     const [purchaseCount, setPurchaseCount] = useState(() => {
         return 0;
@@ -17,27 +16,25 @@ const ProductCard = () => {
         return result;
     }
 
-    const productData = useContext(ProductContext)
-
-    console.log('Рендер прдуктовой карточки')
+    console.log('ProductCard Render')
 
     return (
         <div className='product-card'>
             <div className="product-image">
-                <img src={productData?.image} alt={productData?.title}></img>
+                <img src={image} alt={title}></img>
             </div>
             <div className="product-name">
-                <span>{productData?.title}</span>
+                <span>{title}</span>
             </div>
             {/* <div className='product-description'>
                 {description} 
             </div> */}
             <div className='product-rating'>
-                <span>В наличии: {productData?.count}</span>
-                <span>Оценка: {productData?.rate}</span>
+                <span>В наличии: {count}</span>
+                <span>Оценка: {rate}</span>
             </div>
             <div className="product-price">
-                <span>{productData?.price} ₽</span>
+                <span>{price} ₽</span>
             </div>
             {purchaseCount <= 0
             ?
@@ -51,17 +48,17 @@ const ProductCard = () => {
                 </div>
             : 
                 <div className='product-purchase-counter'>
-                    <button onClick={() => minus()} disabled = {purchaseCount === 0}>
+                    <button onClick={minus} disabled = {purchaseCount === 0}>
                         <span>-</span>
                     </button>
-                    <input id='counter' type='number' value={purchaseCount} onChange={(e) => {setPurchaseCount(e.target.value)}}/>
-                    <button onClick={() => plus()} disabled = {purchaseCount >= productData?.count}>
+                    <input id='counter' type='number' value={purchaseCount} onChange={(e) => {e.target.value <= count ? setPurchaseCount(e.target.value) : setPurchaseCount(count)}}/>
+                    <button onClick={plus} disabled = {purchaseCount >= count}>
                         <span>+</span>
                     </button>
                 </div>
             }
         </div>
     );
-};
+});
 
 export default ProductCard;

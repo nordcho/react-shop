@@ -1,8 +1,21 @@
-import React, { useContext, useState, useMemo } from 'react';
+import React, {useEffect, useState} from 'react';
 import ProductCard from './ProductCard';
-import { ProductContext } from '../App';
 
-const Products = (props) => {
+const Products = () => {
+
+    const [productData, setProductData] = useState(() => {
+        return []
+      })
+    
+    const [isOn, setIsOn] = useState(false);
+    
+    useEffect(() => {
+        fetch('https://fakestoreapi.com/products/')
+        .then(data => data.json())
+        .then(response => setProductData(response))
+        .then(() => {setIsOn(true)})
+        .then(() => {console.log('2')})
+    }, [isOn])
 
     const [productListView, setProductListView] = useState(() => {
         return 'product-list__grid'
@@ -56,13 +69,7 @@ const Products = (props) => {
         setsortState('desc')
     }
 
-    const productData = useContext(ProductContext)
-
-    const memoizedProductCard = useMemo(() => {
-        return (
-            <ProductCard/>
-        )
-      }, [productData])
+    console.log(productData)
 
     return (
         <div className='product-container'>
@@ -90,19 +97,28 @@ const Products = (props) => {
             </div>
             <div className={productListView}>
             {sortState === 'desc' ? sortArrDesc(productData).map(productData => 
-            <ProductContext.Provider value={productData}>
-            {memoizedProductCard}
-            </ProductContext.Provider>) : sortArrAsc(productData).map(productData => 
-            <ProductContext.Provider value={productData}>
-            {memoizedProductCard}
-            </ProductContext.Provider>)
+            <ProductCard
+                key={productData?.id}
+                title={productData?.title}
+                image={productData?.image}
+                price={productData?.price}
+                count={productData?.rating.count}
+                rate={productData?.rating.rate}
+            />
+            ) : sortArrAsc(productData).map(productData => 
+                <ProductCard
+                key={productData?.id}
+                title={productData?.title}
+                image={productData?.image}
+                price={productData?.price}
+                count={productData?.rating.count}
+                rate={productData?.rating.rate}
+            />)
             }
             </div>
+            {/* <Memoized /> */}
         </div>
     );
 };
-
-
-
 
 export default Products;

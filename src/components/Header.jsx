@@ -11,13 +11,6 @@ const Header = ({AppRef}) => {
         AppRef.current.className = theme
     }
 
-    console.log(AppRef)
-    console.log();
-    const tree = (arr) => {
-        arr.sort((a, b) => {return b.price - a.price} ) 
-        console.log(22)
-      }
-
     return (
         <header className='header'>
         <div className='shop-name'>
@@ -44,3 +37,6 @@ const Header = ({AppRef}) => {
 };
 
 export default Header;
+
+
+
