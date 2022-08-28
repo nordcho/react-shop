@@ -69,8 +69,6 @@ const Products = () => {
         setsortState('desc')
     }
 
-    console.log(productData)
-
     return (
         <div className='product-container'>
             <div className="product-view">
@@ -116,7 +114,6 @@ const Products = () => {
             />)
             }
             </div>
-            {/* <Memoized /> */}
         </div>
     );
 };

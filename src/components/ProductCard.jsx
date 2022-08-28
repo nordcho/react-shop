@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
+import Stars from './Stars';
+import Like from './Like';
 
 const ProductCard = React.memo(({title, image, price, count, rate}) => {
 
+    // input
     const [purchaseCount, setPurchaseCount] = useState(() => {
         return 0;
     })
@@ -15,11 +18,15 @@ const ProductCard = React.memo(({title, image, price, count, rate}) => {
         let result = setPurchaseCount(parseInt(purchaseCount) - 1);
         return result;
     }
-
+  
     console.log('ProductCard Render')
 
     return (
         <div className='product-card'>
+            <Like
+                className={'product-card-like'}
+                colorHeart={'red'}
+            />
             <div className="product-image">
                 <img src={image} alt={title}></img>
             </div>
@@ -31,10 +38,15 @@ const ProductCard = React.memo(({title, image, price, count, rate}) => {
             </div> */}
             <div className='product-rating'>
                 <span>В наличии: {count}</span>
-                <span>Оценка: {rate}</span>
+                
             </div>
             <div className="product-price">
                 <span>{price} ₽</span>
+                <span><Stars
+                    numTotalStars = {'5'}
+                    initialRating = {rate}
+                />
+                </span>
             </div>
             {purchaseCount <= 0
             ?
