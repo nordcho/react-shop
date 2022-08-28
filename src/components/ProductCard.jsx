@@ -38,15 +38,14 @@ const ProductCard = React.memo(({title, image, price, count, rate}) => {
             </div> */}
             <div className='product-rating'>
                 <span>В наличии: {count}</span>
-                
-            </div>
-            <div className="product-price">
-                <span>{price} ₽</span>
                 <span><Stars
                     numTotalStars = {'5'}
                     initialRating = {rate}
                 />
                 </span>
+            </div>
+            <div className="product-price">
+                <span>{price} ₽</span>
             </div>
             {purchaseCount <= 0
             ?

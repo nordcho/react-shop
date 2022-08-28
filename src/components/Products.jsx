@@ -72,14 +72,14 @@ const Products = () => {
         <div className='product-container'>
             <div className="product-view">
                 <span className="product-view__sort">
-                    Сортировка <FaSortAmountDown />
+                    Сортировка <FaSortAmountDown size={20}/>
                     <div class="product-view__sort_dropdown">
                         <div className='product-view__sort_desc'
                         onClick={() => {setsortState('desc')}}
-                        ><FaSortAmountDown /> По убыванию </div>
+                        ><FaSortAmountDown/> По убыванию </div>
                         <div className='product-view__sort_asc'
                         onClick={() => {setsortState('asc')}}
-                        ><FaSortAmountUp />По возрастанию</div>
+                        ><FaSortAmountUp/>По возрастанию</div>
                     </div>
                 </span>
                 <div className="product-view__switcher">
