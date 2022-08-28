@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ProductCard from './ProductCard';
+import {FaSortAmountDown, FaSortAmountUp, FaTh, FaThList} from 'react-icons/fa';
 
 const Products = () => {
 
@@ -21,37 +22,33 @@ const Products = () => {
         return 'product-list__grid'
     })
 
-    const [buttonListStyle, setButtonListStyle] = useState(() => {
-        return 'product-view-list-button'
+    const changeProductListView = () => {
+        setProductListView('product-list__list');
+        setProductListViewSwitcherColor('black');
+        setProductGridViewSwitcherColor('gray');
+    }
+
+    const changeProductGridView = () => {
+        setProductListView('product-list__grid');
+        setProductListViewSwitcherColor('gray');
+        setProductGridViewSwitcherColor('black');
+    }
+
+    const [productListViewSwitcherColor, setProductListViewSwitcherColor] = useState(() => {
+        return 'gray'
     })
 
-    const [buttonGridStyle, setButtonGridStyle] = useState(() => {
-        return 'product-view-grid-button__cheked'
+    const [productGridViewSwitcherColor, setProductGridViewSwitcherColor] = useState(() => {
+        return 'black'
     })
 
     const [sortState, setsortState] = useState(() => {
         return 'desc'
     })
 
-    const handleClickListButton = () => {
-        setButtonListStyle('product-view-list-button__cheked');
-        setButtonGridStyle('product-view-grid-button')
-    }
-
-    const handleClickGridButton = () => {
-        setButtonGridStyle('product-view-grid-button__cheked');
-        setButtonListStyle('product-view-list-button');
-    }
-
-    const changeGridState = () => {
-        handleClickGridButton();
-        setProductListView('product-list__grid');
-    }
-
-    const changeListState = () => {
-        handleClickListButton();
-        setProductListView('product-list__list');
-    }
+    const [sortVisible, setsortVisible] = useState(() => {
+        return 'product-card-sort-choose'
+    })
 
     const sortArrDesc = (arr) => {
         return arr.sort((a, b) => {return b.price - a.price})
@@ -69,29 +66,34 @@ const Products = () => {
         setsortState('desc')
     }
 
+
+
     return (
         <div className='product-container'>
             <div className="product-view">
-                <button className={buttonListStyle}
-                        onClick={sortAsc}
-                >
-                Сортировка по возрастанию
-                </button>
-                <button className={buttonListStyle}
-                        onClick={sortDesc}
-                >
-                Сортировка по убыванию
-                </button>
-                <button className={buttonListStyle}
-                        onClick={changeListState}
-                >
-                Список
-                </button>
-                <button className={buttonGridStyle}
-                        onClick={changeGridState}
-                >
-                Сетка
-                </button>
+                <span className="product-view__sort">
+                    Сортировка <FaSortAmountDown />
+                    <div class="product-view__sort_dropdown">
+                        <div className='product-view__sort_desc'
+                        onClick={() => {setsortState('desc')}}
+                        ><FaSortAmountDown /> По убыванию </div>
+                        <div className='product-view__sort_asc'
+                        onClick={() => {setsortState('asc')}}
+                        ><FaSortAmountUp />По возрастанию</div>
+                    </div>
+                </span>
+                <div className="product-view__switcher">
+                <FaThList
+                    onClick={changeProductListView}
+                    color = {productListViewSwitcherColor}
+                    size={20}
+                />
+                <FaTh
+                    onClick={changeProductGridView}
+                    color = {productGridViewSwitcherColor}
+                    size={20}
+                />
+                </div>
             </div>
             <div className={productListView}>
             {sortState === 'desc' ? sortArrDesc(productData).map(productData => 
