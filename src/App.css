@@ -47,25 +47,78 @@
   gap: 15px;
 }
 
-.navigation:last-child {
+.navigation:nth-child(-n+2) {
   margin-right: 5px;
 }
 
-.navigation-favorites, .navigation-cart {
+.navigation-favorites, .navigation-cart, .navigation-login {
   display: flex;
 }
 
-.navigation-favorites span,  .navigation-cart span{
+.navigation-favorites span,  .navigation-cart span, .navigation-login span{
   font-size: 20px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   align-self: center;
   color: #ffffff;
+  cursor: pointer;
   
 }
 
 .navigation span:hover {
+  color: #f1f1f1;
+}
+
+.modal-window {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0);
+}
+
+.modal-window.active {
+  transform: scale(1);
+}
+
+.modal-content {
+  transform: scale(0);
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: 0.5s;
+  width: 400px;
+  height: 400px;
+}
+
+.modal-content.active {
+  transform: scale(1);
+}
+
+.modal-login-wrapper {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-login-button {
+  cursor: pointer;
+  align-self: center;
+  border-radius: 8px;
+  width: 100%;
+  height: 40px;
+  font-weight: bold;
+  background-color: deepskyblue;
   color: #ffffff;
+  border-color: #ffffffc0;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Свичер темной темы */
@@ -210,7 +263,7 @@
 
 .product-view__switcher {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 5px;
 }
 
@@ -243,7 +296,9 @@
   z-index: 1;
 }
 
-.product-view__sort:hover .product-view__sort_dropdown {display: block;}
+.product-view__sort:hover .product-view__sort_dropdown {
+  display: block;
+}
 
 /* .product-view-list-button, .product-view-grid-button {
   cursor: pointer;
@@ -315,6 +370,21 @@
 .product-price {
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.product-price__old-price.deactive {
+  color: #878787;
+  text-decoration: line-through;
+  font-size: 14px;
+}
+
+.product-price__sale {
+  background-color: deepskyblue;
+  border-radius: 5px;
+  font-size: 10px;
 }
 
 .product-rating {

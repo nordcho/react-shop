@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FaStar, FaStarHalfAlt, FaRegStar} from 'react-icons/fa';
 
 const Stars = ({numTotalStars, initialRating}) => {

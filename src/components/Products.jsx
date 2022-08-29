@@ -46,10 +46,6 @@ const Products = () => {
         return 'desc'
     })
 
-    const [sortVisible, setsortVisible] = useState(() => {
-        return 'product-card-sort-choose'
-    })
-
     const sortArrDesc = (arr) => {
         return arr.sort((a, b) => {return b.price - a.price})
     }
@@ -57,16 +53,6 @@ const Products = () => {
     const sortArrAsc = (arr) => {
         return arr.sort((a, b) => {return a.price - b.price })
     }
-
-    const sortAsc = () => {
-        setsortState('asc')
-    }
-
-    const sortDesc = () => {
-        setsortState('desc')
-    }
-
-
 
     return (
         <div className='product-container'>

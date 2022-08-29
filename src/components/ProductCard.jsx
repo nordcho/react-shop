@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
+import { UserContext } from '../App';
 import Stars from './Stars';
 import Like from './Like';
 
 const ProductCard = React.memo(({title, image, price, count, rate}) => {
 
-    // input
     const [purchaseCount, setPurchaseCount] = useState(() => {
         return 0;
     })
@@ -18,6 +18,13 @@ const ProductCard = React.memo(({title, image, price, count, rate}) => {
         let result = setPurchaseCount(parseInt(purchaseCount) - 1);
         return result;
     }
+
+    const getNewPrice = (price) => {
+        let result = parseInt(price) - parseInt(price) * 0.10
+        return result.toFixed(2)
+    }
+
+    const isAuth = useContext(UserContext)
   
     console.log('ProductCard Render')
 
@@ -45,7 +52,14 @@ const ProductCard = React.memo(({title, image, price, count, rate}) => {
                 </span>
             </div>
             <div className="product-price">
-                <span>{price} ₽</span>
+                {isAuth === false 
+                ? <span className='product-price__old-price'>{price} ₽</span>
+                : <><span className='product-price__old-price deactive'>{price} ₽</span>
+                    <span className='product-price__old-price'>{getNewPrice(price)} ₽</span>
+                    <span className='product-price__sale'>-10%</span>
+                </>
+            }
+
             </div>
             {purchaseCount <= 0
             ?
