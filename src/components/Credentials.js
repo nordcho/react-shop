@@ -1,7 +1,7 @@
 const Credentials = {
     user: 'nordcho',
     password: '123456',
-    authTokens: [],
+    authTokens: ['qwerty'],
     set authToken(value) {
         if(this.authTokens.includes(value)) {
             //pass

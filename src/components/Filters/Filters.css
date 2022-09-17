@@ -1,0 +1,49 @@
+.filter {
+    display: flex;
+    width: 20%;
+    flex-direction: column;
+    margin-right: 5px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .filter-price {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+  }
+  
+  .filter-price-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .filter-price-wrapper input {
+    width: 30%;
+  }
+  
+  .filter::before {
+    content: '';
+    visibility: hidden;
+  }
+
+  .filter-category-header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .filter-category-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 14px;
+  }
+
+  .filter-category-category {
+    display: flex;
+    align-items: center;
+  }

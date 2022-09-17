@@ -1,8 +1,31 @@
 import React, {useState} from 'react';
-import Modal from './Modal';
-import Credentials from './Credentials';
+import Modal from '../Modal/Modal';
+import Credentials from '../Credentials';
+import { createPortal } from 'react-dom';
+import { useEffect } from 'react';
+import { useMemo } from 'react';
+import { CartContext } from '../../App';
+import { useContext } from 'react';
 
-const Header = ({AppRef, isAuth, setAuth}) => {
+const Header = ({AppRef, isAuth, setAuth, login, setLogin, cart}) => {
+
+    const [cartNumber, setCartNumber] = useState(0)
+
+    let cartProducts = useContext(CartContext)
+    
+    useEffect(() => {
+        let itterable = cartProducts.cart
+        let result = 0
+        for(let i in itterable) {
+            if(itterable[i] > 0) {
+                result = result + 1
+            }
+            else {
+                result = result - 1
+            }
+        }
+        setCartNumber(result)
+    }, [cart])
 
     const [theme, setTheme] = useState(() => {
         return 'light'
@@ -14,7 +37,7 @@ const Header = ({AppRef, isAuth, setAuth}) => {
     }
 
     const [modalActive, setModalActive] = useState(() => {
-        return 'false'
+        return false
     })
 
     const logIn = () => {
@@ -32,9 +55,15 @@ const Header = ({AppRef, isAuth, setAuth}) => {
         }
     }
 
-    const [login, setLogin] = useState(() => {
-        return ''
-    })
+    const logOut = () => {
+        if (document.cookie.split('; ').find(cookie => cookie.startsWith('react-shop')))  {
+            document.cookie = 'react-shop=qwerty; ' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            setAuth(false);
+        }
+        else {
+            setAuth(false);
+        }
+    }
 
     const [password, setPassword] = useState(() => {
         return ''
@@ -42,15 +71,36 @@ const Header = ({AppRef, isAuth, setAuth}) => {
 
     const [errorLogin, setError] = useState(() => {
         return ''
-    }) 
+    })
 
-    console.log(Credentials)
+    const modalRoot = document.querySelector('#modalRoot');
+
+    // const el = useMemo(() => {
+    //     return document.createElement('div');
+    // }, [])
+
+    // useEffect(() => {
+    //     const modalRoot = document.querySelector('#modalRoot');
+    //     if(modalActive) {
+    //         modalRoot.appendChild(el);
+    //     }
+
+    //     else {
+    //         try {
+    //             modalRoot.removeChild(el)
+    //         }
+
+    //         catch(e) {
+    //             console.log(e)
+    //         }
+    //     }
+    // }, [modalActive])
 
     return (
         <header className='header'>
         <div className='shop-name'>
             <span>
-                React Shop
+                React Shop {cartNumber}
             </span>
         </div>
         <div className='navigation'>
@@ -65,16 +115,47 @@ const Header = ({AppRef, isAuth, setAuth}) => {
             </div>
             <div className='navigation-cart'>
             <span>Корзина</span>
+            {}
             </div>
             <div className='navigation-login'>
             {isAuth === false ? <span
-                onClick={() => {setModalActive('true')}}
+                onClick={() => {setModalActive(true)}}
             >Войти</span> : <span
-                onClick={() => {setModalActive('true')}}
+                onClick={() => {setModalActive(true)}}
             >Привет, {login}</span> }
             </div>
         </div>
+        {createPortal(
         <Modal active={modalActive} setActive={setModalActive}>
+            <div className='modal-login-wrapper'>
+                {isAuth === false ? <>
+                <h2>Вход</h2>
+                <span style={{'color': 'red'}}>{errorLogin}</span>
+                <b>Логин</b>
+                <input type="text" placeholder="Введите Логин" name="email"
+                    onChange={(e) => {setLogin(e.target.value)}}
+                />
+                <b>Пароль</b>
+                <input type="password" placeholder="Введите Пароль" name="password" 
+                    onChange={(e) => {setPassword(e.target.value)}}
+                />
+                <button className="modal-login-button"
+                    onClick={logIn}
+                >Войти</button> </> 
+                : <>
+                <div>Вы успешно вошли</div> 
+                <button className="modal-login-button"
+                    onClick={() => {setModalActive(false)}}
+                >Закрыть окно</button>
+                <button className="modal-login-button"
+                    onClick={() => {logOut(); }}
+                >Выйти</button>
+                </>
+                }
+            </div>
+        </Modal>, modalRoot
+        )}
+        {/* <Modal active={modalActive} setActive={setModalActive}>
             <div className='modal-login-wrapper'>
                 {isAuth === false ? <>
                 <h2>Вход</h2>
@@ -101,7 +182,7 @@ const Header = ({AppRef, isAuth, setAuth}) => {
                 </>
                 }
             </div>
-        </Modal>
+        </Modal> */}
     </header>
     );
 };

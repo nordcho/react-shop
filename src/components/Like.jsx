@@ -4,17 +4,16 @@ import {FaHeart, FaRegHeart} from 'react-icons/fa'
 const Like = ({className, colorHeart}) => {
 
     const [like, setLike] = useState(() => {
-        return 'not like'
+        return true
     })
 
     const handleClickLike = () => {
-        like === 'not like' ? setLike('like') : setLike('not like')
+        like ? setLike(false) : setLike(true)
     }
-
 
     return (
         <div className={className}>
-            {like === 'not like' ? <FaRegHeart onClick={handleClickLike}/> : <FaHeart color={colorHeart} onClick={handleClickLike} />}
+            {like ? <FaRegHeart onClick={handleClickLike}/> : <FaHeart color={colorHeart} onClick={handleClickLike} />}
         </div>
     );
 };
